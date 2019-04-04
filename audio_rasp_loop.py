@@ -9,13 +9,13 @@ import wave
 OUT_MAX_SND = 1
 OUT_COUNT_SILENCE = 1
 
-THRESHOLD = 600
-SILENCE_COUNT = 30#30
+THRESHOLD = 600#600
+SILENCE_COUNT = 20#30
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 1 channel
 samp_rate = 44100 # 44.1kHz sampling rate 44100 
-chunk = 4096 # 2^12 samples for buffer
+chunk = 4048 # 2^12 samples for buffer
 record_secs = 5 # seconds to record
 dev_index = 2 # device index found by p.get_device_info_by_index(ii)
 
@@ -87,7 +87,7 @@ def record():
 
     while 1:
         # little endian, signed short
-        snd_data = array('h', stream.read(chunk))
+        snd_data = array('h', stream.read(chunk, exception_on_overflow = False))
         if byteorder == 'big':
             snd_data.byteswap()
         r.extend(snd_data)
@@ -124,7 +124,7 @@ def record_to_file(path):
     wf = wave.open(path, 'wb')
     wf.setnchannels(2)
     wf.setsampwidth(sample_width)
-    wf.setframerate(samp_rate)
+    wf.setframerate(samp_rate/2)
     wf.writeframes(data)
     wf.close()
 
