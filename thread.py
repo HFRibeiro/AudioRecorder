@@ -23,6 +23,7 @@ SILENCE_COUNT = 11#30
 
 RECORDING = 0
 ON_REC = 0
+ENABLE_RECORD = 0
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -46,6 +47,9 @@ with open(filepath) as fp:
            cnt += 1
        elif cnt == 2:
            SILENCE_COUNT = int(line)
+           cnt += 1
+       elif cnt == 3:
+           ENABLE_RECORD = int(line)
            cnt += 1
        
        
@@ -199,7 +203,8 @@ def recordAudio( threadName, delay):
 def videoRecord( threadName, delay):
    global RECORDING
    global ON_REC
-   while 1:
+   global ENABLE_RECORD
+   while ENABLE_RECORD:
       #print("Recording: "+str(RECORDING)+"ON_REC"+str(ON_REC))
       if RECORDING==1 and ON_REC==0:
           record_video()
