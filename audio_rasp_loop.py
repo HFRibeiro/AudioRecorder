@@ -2,15 +2,50 @@ from sys import byteorder
 from array import array
 from struct import pack
 
+import sys
 import time
 import pyaudio
 import wave
+import RPi.GPIO as GPIO
+import time
+
+THRESHOLD = 10#600
+SILENCE_COUNT = 11#30
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+RED = 12
+GREEN = 11
+BLUE = 13
+GPIO.setup(RED,GPIO.OUT)
+GPIO.setup(GREEN,GPIO.OUT)
+GPIO.setup(BLUE,GPIO.OUT)
+
+GPIO.output(RED,GPIO.HIGH)
+
+filepath = '/var/www/html/configs.txt'  
+with open(filepath) as fp:  
+   line = fp.readline()
+   cnt = 1
+   while line:
+       line = fp.readline()
+       if cnt == 1:
+           THRESHOLD = line
+           cnt += 1
+       elif cnt == 2:
+           SILENCE_COUNT = line
+           cnt += 1
+       
+       
+print("THRESHOLD: "+THRESHOLD)
+print("SILENCE_COUNT: "+SILENCE_COUNT)
+sys.exit()
 
 OUT_MAX_SND = 1
 OUT_COUNT_SILENCE = 1
 
-THRESHOLD = 600#600
-SILENCE_COUNT = 30#30
+#THRESHOLD = 600#600
+#SILENCE_COUNT = 30#30
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 1 channel
@@ -97,13 +132,22 @@ def record():
         if silent and snd_started:
             print(num_silent)
             num_silent += 1
+            GPIO.output(RED,GPIO.LOW)
+            GPIO.output(BLUE,GPIO.HIGH)
+            GPIO.output(GREEN,GPIO.LOW)
         elif not silent and not snd_started:
             snd_started = True
         elif not silent and snd_started:
             num_silent = 0
+            GPIO.output(RED,GPIO.HIGH)
+            GPIO.output(BLUE,GPIO.LOW)
+            GPIO.output(GREEN,GPIO.LOW)
 
         if snd_started and num_silent > SILENCE_COUNT:
             print("Start saving")
+            GPIO.output(RED,GPIO.LOW)
+            GPIO.output(BLUE,GPIO.LOW)
+            GPIO.output(GREEN,GPIO.HIGH)
             break
 
     sample_width = p.get_sample_size(form_1)
@@ -132,7 +176,7 @@ if __name__ == '__main__':
     while(True):
         print("please speak a word into the microphone")
         timestr = time.strftime("%Y%m%d-%H%M%S")
-        name = "sounds/"+timestr+".wav"
+        name = "/var/www/html/sounds/"+timestr+".wav"
         record_to_file(name)
         print("done - result written to ",name)
 
