@@ -6,3 +6,10 @@ sudo apt-get install python3-dev python3-rpi.gpio
 cd pyaudio
 sudo python3 setup.py install
 ```
+
+```
+cd ~
+mkdir logs
+sudo crontab -e
+@reboot sh /home/pi/AudioRecorder/launcher.sh >/home/pi/logs/cronlog 2>&1
+```
