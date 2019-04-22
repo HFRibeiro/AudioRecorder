@@ -1,10 +1,7 @@
 # AudioRecorder
 ```python
-sudo pip3 install matplotlib
-sudo pip3 install scipy
-sudo pip3 install seaborn
-```
-
-```bash
-sudo apt-get install libatlas-base-dev
+git clone http://people.csail.mit.edu/hubert/git/pyaudio.git
+sudo apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev
+cd pyaudio
+sudo python3 setup.py install
 ```
