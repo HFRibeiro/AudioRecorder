@@ -21,7 +21,7 @@ GPIO.setup(RED,GPIO.OUT)
 GPIO.setup(GREEN,GPIO.OUT)
 GPIO.setup(BLUE,GPIO.OUT)
 
-GPIO.output(RED,GPIO.HIGH)
+GPIO.output(GREEN,GPIO.HIGH)
 
 filepath = '/var/www/html/configs.txt'  
 with open(filepath) as fp:  
@@ -30,16 +30,18 @@ with open(filepath) as fp:
    while line:
        line = fp.readline()
        if cnt == 1:
-           THRESHOLD = line
+           THRESHOLD = int(line)
            cnt += 1
        elif cnt == 2:
-           SILENCE_COUNT = line
+           SILENCE_COUNT = int(line)
            cnt += 1
        
        
-print("THRESHOLD: "+THRESHOLD)
-print("SILENCE_COUNT: "+SILENCE_COUNT)
-sys.exit()
+print("THRESHOLD: ")
+print(THRESHOLD)
+print("SILENCE_COUNT: ")
+print(SILENCE_COUNT)
+#sys.exit()
 
 OUT_MAX_SND = 1
 OUT_COUNT_SILENCE = 1
