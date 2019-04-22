@@ -4,5 +4,5 @@
 
 cd /
 cd home/pi/AudioRecorder
-sudo python3 audio_rasp_loop.py
+sudo python3 thread.py
 cd /
