@@ -18,6 +18,20 @@ if (is_dir($dir))
 }
 
 sort($files_name, SORT_NUMERIC);
+
+$handle = fopen("configs.txt", "r");
+$x = 0;
+if ($handle) {
+    while (($line = fgets($handle)) !== false) {
+        $lineGet[$x] = trim(preg_replace('/\s\s+/', ' ', $line));;
+        $x++;
+    }
+
+    fclose($handle);
+} else {
+    // error opening the file.
+} 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +81,14 @@ sort($files_name, SORT_NUMERIC);
 </head>
 
 <body>
-
+<div class="form-group">
+  <label for="threshold">Threshold:</label>
+  <input type="text" class="form-control" id="threshold">
+  <label for="silence_count">Silence_count:</label>
+  <input type="text" class="form-control" id="silence_count">
+  <label class="checkbox-inline"><input type="checkbox" id="saveVideo" value="">Save Video</label>
+  <button type="button" class="btn btn-success" id="bt_save">Save Configuration</button>
+</div>
 <ul class="list-group" id="MainUL">
   <li class="list-group-item d-flex justify-content-between align-items-center">
     Total Files: <?php echo count($files_name);?>
@@ -76,7 +97,7 @@ sort($files_name, SORT_NUMERIC);
 <script>
 
 var files_name = new Array("<?php echo implode('","', $files_name);?>");
-
+var lineGet = new Array("<?php echo implode('","', $lineGet);?>");
 
 </script>
 

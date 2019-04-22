@@ -23,5 +23,24 @@ $(document).ready(function(){
     $(".down").on('click', function(event){
         window.location.href = "sounds/"+this.id;
     });
+
+    document.getElementById("threshold").value = lineGet[1];
+    document.getElementById("silence_count").value = lineGet[2];
+    if(lineGet[3]==1) document.getElementById("saveVideo").checked = true;
+    else document.getElementById("saveVideo").checked = false;
+
+    $("#bt_save").on('click', function(event){
+        var th = document.getElementById("threshold").value;
+        var sl = document.getElementById("silence_count").value;
+        var ch = 0;
+        if(document.getElementById("saveVideo").checked) ch = 1;
+
+        $.post( "saveFile.php?threshold="+th+"&silence_count="+sl+"&saveVideo="+ch, {
+            id: 0
+            })
+          .done(function( data ) {
+             window.location.href = "";
+          });
+    });
    
  });
