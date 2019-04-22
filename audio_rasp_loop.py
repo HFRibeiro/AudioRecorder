@@ -10,7 +10,7 @@ OUT_MAX_SND = 1
 OUT_COUNT_SILENCE = 1
 
 THRESHOLD = 600#600
-SILENCE_COUNT = 20#30
+SILENCE_COUNT = 30#30
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 1 channel
