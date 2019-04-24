@@ -18,3 +18,9 @@ sudo nano /etc/sudoers
 ```
 www-data ALL = NOPASSWD: /sbin/reboot, /sbin/halt
 ```
+
+sudo nano /etc/crontab
+```
+#reboot every every night at midnight
+0  0     * * *   root    reboot
+```
