@@ -8,7 +8,7 @@ $(document).ready(function(){
         li.className = 'list-group-item d-flex justify-content-between align-items-center';
         li.innerHTML = files_name[i]+'<span id='+files_name[i]+' class="down">Download</span><span id='+files_name[i]+' class="delete">X</span>';
         panel.appendChild(li);
-        console.log(files_name[i]);
+        //console.log(files_name[i]);
     }
 
     $(".delete").on('click', function(event){
@@ -42,5 +42,30 @@ $(document).ready(function(){
              window.location.href = "";
           });
     });
+
+    $("#bt_download").on('click', function(event){
+        
+        var r = confirm("Are you sure?");
+        if (r == true) {
+            for(var i=0;i<files_name.length;i++)
+            { 
+                window.open("downloadAndDelete.php?id="+files_name[i]);
+                console.log(files_name[i]);
+                sleep(1000);
+            }
+        } else {
+        }
+        window.location.href = "";
+      
+    });
+
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > milliseconds){
+            break;
+          }
+        }
+      }
    
  });
