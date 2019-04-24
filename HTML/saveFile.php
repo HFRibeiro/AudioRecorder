@@ -11,4 +11,6 @@ fwrite($myfile, $silence_count."\n");
 fwrite($myfile, $saveVideo."\n");
 
 echo fclose($myfile);
+
+exec ("sudo reboot");
 ?>
